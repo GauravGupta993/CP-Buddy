@@ -10,7 +10,7 @@ module.exports = {
 	async execute(client) {
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 		const job = new CronJob(
-			'0 0 */6 * * *', // cronTime
+			'0 * * * * *', // cronTime
 			async function () {
 				await Solvecheck();
 			}, // onTick
