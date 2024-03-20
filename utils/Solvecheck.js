@@ -15,9 +15,9 @@ module.exports = async () => {
         .catch((err) => {
             console.error(err);
         });
-    console.log(users[0][0].Leetcode);
-    for (user in users) {
-        const submissions = (await getlcsubmissions(users[user][0].Leetcode));
+        for (user in users[0]) {
+        console.log(users[0][user]);
+        const submissions = (await getlcsubmissions(users[0][user].Leetcode));
         let x = 0;
         for (submission in submissions) {
             // console.log(submissions[submission].title);
@@ -25,14 +25,14 @@ module.exports = async () => {
                 x = 1;
             }
         }
-        if (x === 0 && users[user][0].DailyScore === 0) {
-            console.log(users[user][0].Leetcode)
+        if (x === 1 && users[0][user].DailyScore === 0) {
+            console.log(users[0][user].Leetcode)
             await User.findOneAndUpdate(
                 {
-                    Leetcode: users[user][0].Leetcode // search query
+                    Leetcode: users[0][user].Leetcode // search query
                 },
                 {
-                    Score: users[user][0].Score + 1,
+                    Score: users[0][user].Score + 1,
                     DailyScore:1
                     // Leetcode: "users[user][0].Leetcode"+"a" // field:values to update
                 },
