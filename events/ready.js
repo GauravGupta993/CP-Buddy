@@ -3,9 +3,6 @@ const { CronJob } = require('cron');
 const Solvecheck = require('../utils/Solvecheck');
 const resetDaily = require('../utils/resetDaily');
 const schedule = require('node-schedule');
-const schedule = require('node-schedule');
-
-const daily = require('../utils/daily');
 const daily = require('../utils/daily');
 module.exports = {
 	name: Events.ClientReady,
