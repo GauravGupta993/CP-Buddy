@@ -4,10 +4,10 @@ const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const User = require('./models/User')
-const Check= require('./utils/Solvecheck.js')
-const reset= require('./utils/resetDaily.js')
-const daily= require('./utils/daily.js')
-const cf=require('./utils/cfContestProblem.js')
+const Solvecheck = require('./utils/Solvecheck.js')
+const resetDaily = require('./utils/resetDaily.js')
+const daily = require('./utils/daily.js')
+const cf = require('./utils/cfContestProblem.js')
 const mongoose = require('mongoose');
 (async () => {
 	try {
@@ -45,8 +45,22 @@ const mongoose = require('mongoose');
 		// 	.catch((err) => {
 		// 	  console.error(err);
 		// 	});
-
-		  eventHandler(client);
+		eventHandler(client);
+		setInterval(async function () {
+			console.log("Testing");
+		}, 60 * 1000);
+		setInterval(async function () {
+			const h = new Date().getHours();
+			if (h == 0) {
+				await resetDaily();
+			}
+		}, 60 * 60 * 1000);
+		setInterval(async function () {
+			await Solvecheck();
+		}, 60 * 60 * 4 * 1000);
+		setInterval(async function () {
+			await daily(client);
+		}, 60 * 60 * 4 * 1000);
 
 		client.login(process.env.TOKEN);
 	} catch (error) {
