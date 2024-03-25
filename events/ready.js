@@ -12,8 +12,8 @@ module.exports = {
 		// 	await daily(client);
 		// }, 60 * 1000); 
 		setInterval(async function () {
-			console.log("1 hour scheduler.");
-		}, 60 * 1000);
+			console.log("Testing");
+		}, 1000);
 		setInterval(async function () {
 			const h = new Date().getHours();
 			if (h == 0) {
