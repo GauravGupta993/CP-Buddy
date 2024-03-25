@@ -50,14 +50,14 @@ const mongoose = require('mongoose');
 			console.log("Testing");
 		}, 60 * 1000);
 		setInterval(async function () {
+			await Solvecheck();
+		}, 60 * 60 * 1 * 1000);
+		setInterval(async function () {
 			const h = new Date().getHours();
-			if (h == 0) {
+			if (h == 5) {
 				await resetDaily();
 			}
 		}, 60 * 60 * 1000);
-		setInterval(async function () {
-			await Solvecheck();
-		}, 60 * 60 * 4 * 1000);
 		setInterval(async function () {
 			await daily(client);
 		}, 60 * 60 * 4 * 1000);
