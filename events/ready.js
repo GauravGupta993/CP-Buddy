@@ -10,18 +10,33 @@ module.exports = {
 	once: true,
 	async execute(client) {
 		console.log(`Ready! Logged in as ${client.user.tag}`);
-		const test = schedule.scheduleJob('0 * * * * *', async function () {
-			await daily(client);
-		});
-		const job = schedule.scheduleJob('0 0 */6 * * *', async function () {
+		// setInterval(async function() {
+		// 	await daily(client);
+		// }, 60 * 1000); 
+		setInterval(async function () {
+			const h = new Date().getHours();
+			if (h == 0) {
+				await resetDaily();
+			}
+		}, 60 * 60 * 1000);
+		setInterval(async function () {
 			await Solvecheck();
-		});
-		const job2 = schedule.scheduleJob('0 0 0 * * *', async function () {
-			await resetDaily();
-		});
-		const job3 = schedule.scheduleJob('0 0 */12 * * *', async function () {
+		}, 60 * 60 * 4 * 1000);
+		setInterval(async function () {
 			await daily(client);
-		});
+		}, 60 * 60 * 4 * 1000);
+		// const test = schedule.scheduleJob('0 * * * * *', async function () {
+		// 	await daily(client);
+		// });
+		// const job = schedule.scheduleJob('0 0 */6 * * *', async function () {
+		// 	await Solvecheck();
+		// });
+		// const job2 = schedule.scheduleJob('0 0 0 * * *', async function () {
+		// 	await resetDaily();
+		// });
+		// const job3 = schedule.scheduleJob('0 0 */12 * * *', async function () {
+		// 	await daily(client);
+		// });
 		// const job = new CronJob(
 		// 	'0 0 */6 * * *', // cronTime
 		// 	async function () {

@@ -4,7 +4,9 @@ const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const User = require('./models/User')
-const Check= require('./utils/resetDaily.js')
+const Check= require('./utils/Solvecheck.js')
+const reset= require('./utils/resetDaily.js')
+const daily= require('./utils/daily.js')
 const cf=require('./utils/cfContestProblem.js')
 const mongoose = require('mongoose');
 (async () => {
@@ -13,6 +15,9 @@ const mongoose = require('mongoose');
 		await mongoose.connect(process.env.MONGODB_URI);
 		console.log('Connected to DB.');
 		const data = await mongoose.connection.db.collection("user");
+		// await reset();
+		// await Check();
+		// await daily(client);
 		// Check();
 		// cf();
 		//   User.create({ Leetcode: 'Lelouch_Britannia' });
