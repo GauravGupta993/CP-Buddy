@@ -10,6 +10,7 @@ module.exports = {
     let userNames = "";
     let scores = "";
     let dailyscore = "";
+    let rank="";
     await User.find({
     })
       .then((doc) => {
@@ -19,6 +20,18 @@ module.exports = {
           userNames = userNames + doc[i].Leetcode + '\n';
           scores = scores + doc[i].Score + '\n';
           dailyscore = dailyscore + doc[i].DailyScore + '\n';
+          if(i==='0'){
+            rank=rank+`:first_place:`+'\n';
+          }
+          else if(i=='1'){
+            rank=rank+`:second_place:`+'\n';
+          }
+          else if(i=='2'){
+            rank=rank+`:third_place:`+'\n';
+          }
+          else{
+            rank=rank+`${parseInt(i)+1}`+'\n';
+          }
         }
         console.log(userNames);
         console.log(scores);
@@ -30,7 +43,9 @@ module.exports = {
 
     const exampleEmbed = new EmbedBuilder()
       .setColor(0x51267)
-      .addFields({ name: 'Username', value: userNames, inline: true },
+      .setTitle('Leaderboard :trophy:')
+      .addFields({ name: 'Rank', value: rank, inline: true },
+        { name: 'Username', value: userNames, inline: true },
         { name: 'Score', value: scores, inline: true },
         { name: 'Daily Score', value: dailyscore, inline: true });
 
