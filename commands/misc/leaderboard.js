@@ -4,7 +4,7 @@ const User = require('../../models/User')
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('leaderboard')
+    .setName('test-lb')
     .setDescription('Displays Leaderboard'),
   async execute(interaction) {
     let userNames = "";

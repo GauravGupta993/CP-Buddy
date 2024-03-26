@@ -4,6 +4,7 @@ const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const User = require('./models/User')
+const { CronJob } = require('cron');
 const Solvecheck = require('./utils/Solvecheck.js')
 const resetDaily = require('./utils/resetDaily.js')
 const daily = require('./utils/daily.js')
@@ -46,21 +47,43 @@ const mongoose = require('mongoose');
 		// 	  console.error(err);
 		// 	});
 		eventHandler(client);
-		setInterval(async function () {
-			console.log("Testing");
-		}, 60 * 1000);
-		setInterval(async function () {
-			await Solvecheck();
-		}, 60 * 60 * 1 * 1000);
-		setInterval(async function () {
-			const h = new Date().getHours();
-			if (h == 5) {
+		const h = new Date().getHours();
+		const test = new CronJob(
+			'0 * * * * *', // cronTime
+			async function () {
+				console.log("Test");
+			}, // onTick
+			null, // onComplete
+			true, // start
+			'Asia/Kolkata' // timeZone
+		);
+		const job = new CronJob(
+			'0 0 */4 * * *', // cronTime
+			async function () {
+				await Solvecheck();
+			}, // onTick
+			null, // onComplete
+			true, // start
+			'Asia/Kolkata' // timeZone
+		);
+		const job3 = new CronJob(
+			'0 30 5 * * *', // cronTime
+			async function () {
 				await resetDaily();
-			}
-		}, 60 * 60 * 1000);
-		setInterval(async function () {
-			await daily(client);
-		}, 60 * 60 * 4 * 1000);
+			}, // onTick
+			null, // onComplete
+			true, // start
+			'Asia/Kolkata' // timeZone
+		);
+		const job2 = new CronJob(
+			'0 0 */4 * * *', // cronTime
+			async function () {
+				await daily(client);
+			}, // onTick
+			null, // onComplete
+			true, // start
+			'Asia/Kolkata' // timeZone
+		);
 
 		client.login(process.env.TOKEN);
 	} catch (error) {
