@@ -4,11 +4,13 @@ const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 const User = require('./models/User')
+const Contests = require('./models/Contests.js')
 const { CronJob } = require('cron');
 const Solvecheck = require('./utils/Solvecheck.js')
 const resetDaily = require('./utils/resetDaily.js')
 const daily = require('./utils/daily.js')
-const cf = require('./utils/cfContestProblem.js')
+const contests = require('./utils/getContests.js')
+const checkTime = require('./utils/checkTime.js')
 const mongoose = require('mongoose');
 (async () => {
 	try {
@@ -47,7 +49,16 @@ const mongoose = require('mongoose');
 		// 	  console.error(err);
 		// 	});
 		eventHandler(client);
-		const h = new Date().getHours();
+		// await contests();
+		const reminder = new CronJob(
+			'0 0 * * * *', // cronTime
+			async function () {
+				await checkTime(client);
+			}, // onTick
+			null, // onComplete
+			true, // start
+			'Asia/Kolkata' // timeZone
+		);
 		const test = new CronJob(
 			'0 * * * * *', // cronTime
 			async function () {
@@ -69,6 +80,16 @@ const mongoose = require('mongoose');
 		const job3 = new CronJob(
 			'0 30 5 * * *', // cronTime
 			async function () {
+				await resetDaily();
+			}, // onTick
+			null, // onComplete
+			true, // start
+			'Asia/Kolkata' // timeZone
+		);
+		const job4 = new CronJob(
+			'0 0 0 */2 * *', // cronTime
+			async function () {
+				console.log("\n \n \n Updating Contests.... \n \n \n");
 				await resetDaily();
 			}, // onTick
 			null, // onComplete
