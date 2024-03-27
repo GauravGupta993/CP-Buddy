@@ -20,7 +20,7 @@ module.exports = async (client) => {
         if (hours < 0) {
             await Contests.deleteOne({ Name: latest[i].Name });
         }
-        else if (hours < 8 && hours > 7) {
+        else if (hours < 7 && hours > 6) {
             sendReminder(client, hours, latest[i]);
         }
         else if (hours < 1.5) {
